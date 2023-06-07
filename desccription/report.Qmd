@@ -1,0 +1,37 @@
+---
+title: 'Data Visualization Platform Report'
+author:
+  - name: 'Yiqing Hu'
+  - name: 'Ting Wei'
+  - name: 'Xinchen Yang'
+  - name: 'Ludi Feng'
+date: today
+format: 
+  pdf: 
+    citation_package: natbib
+documentclass: article
+fontsize: 11pt
+geometry: margin=1in
+latex-tinytex: false
+---
+
+# PROJECT INTRODUCTION
+
+The goal of this project was to create a dashboard application for an e-commerce company's marketing, product development, and sales teams. The application utilizes customer data to provide insights for developing products and marketing plans targeted towards improving customer engagement and sales.
+
+The project used an e-commerce dataset, which contained information about customer behavior data, purchase history, product preferences, customer segmentation, and future forcasting of order and consumer.
+
+Data preprocessing steps were outlined, including data cleaning and user interface design using shinydashboard. The server function was described, highlighting the filtering of data and creation of reactive datasets. The report also mentioned the use of info boxes and graphs in the dashboard.
+
+Overall, the project created a dashboard application that presented e-commerce data in a visually informative way, helping marketing, product development, and sales teams make data-driven decisions.
+
+# APPROCH / METHOD USED
+
+
+
+# PLATFORMS STRUCTURE 
+
+# DATA VISUALIZATION PLATFORMS
+
+
+
