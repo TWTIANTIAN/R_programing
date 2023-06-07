@@ -1,4 +1,4 @@
-# R_programing
+# Data Visualization Platform
 This proj is for Reproducible Research
 
 Team members are: Xinchen Yang, Ting Wei, Ludi Feng and Yiqing Hu
