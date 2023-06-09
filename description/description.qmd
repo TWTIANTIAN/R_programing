@@ -1,22 +1,3 @@
----
-title: 'Data Visualization Platform Report'
-author:
-  - name: 'Yiqing Hu'
-  - name: 'Ting Wei'
-  - name: 'Xinchen Yang'
-  - name: 'Ludi Feng'
-date: today
-format: 
-  pdf: 
-    citation_package: natbib
-    toc: true
-    toc-depth: 2
-documentclass: article
-fontsize: 11pt
-geometry: margin=1in
-latex-tinytex: false
----
-
 # PROJECT INTRODUCTION
 
 The goal of this project was to create a dashboard application for an e-commerce company's marketing, product development, and sales teams. The application utilizes customer data to provide insights for developing products and marketing plans targeted towards improving customer engagement and sales.
@@ -28,7 +9,7 @@ Data preprocessing steps were outlined, including data cleaning and user interfa
 Overall, the project created a dashboard application that presented e-commerce data in a visually informative way, helping marketing, product development, and sales teams make data-driven decisions.
 
 # APPROCH / METHOD USED
-## Writing own advanced functions in R 
+## Writing own advanced functions in R
 Based on our specific requirements for data visualization, define the function you want to create. Consider the parameters the function should accept, such as the input data, visualization type, customization options, or filters.  In order to visualize e-commerce data within the platform. Provide the necessary inputs and parameters to generate the desired visualizations based on the function's capabilities.
 
 ## Object-oriented programming
@@ -74,20 +55,20 @@ We will create our own R package to encapsulate the functionality we have develo
 
 ![](img/plot_time_series.png)
 
-# PLATFORMS STRUCTURE 
+# PLATFORMS STRUCTURE
 Using the shinydashboard package in R. which sets up a dashboard with a header, sidebar, and main panel, and defines different tabs for each page. In the platform, there are six tabs:
 
-- "Customer Activity Analysis": This tab includes visualizations and analysis related to customer activity. Such as website visits, clicks, or logins, over a certain period. 
+- "Customer Activity Analysis": This tab includes visualizations and analysis related to customer activity. Such as website visits, clicks, or logins, over a certain period.
 
 - "Customer Order Analysis": This tab focus on analyzing customer orders. Such as the total number of orders, revenue generated, the most popular products purchased, order trends over time.
 
-- "Conversion Rate": This tab could be dedicated to analyzing conversion rates, which refer to the percentage of users who complete a desired action (e.g., making a purchase) out of the total number of users who visit a specific page or take a specific action. 
+- "Conversion Rate": This tab could be dedicated to analyzing conversion rates, which refer to the percentage of users who complete a desired action (e.g., making a purchase) out of the total number of users who visit a specific page or take a specific action.
 
 - "Consumer Segmentation": This tab involves segmenting customers based on specific characteristics or behaviors. Such as high-value customers, frequent buyers, or lost customer.
 
 - "Future Order Forecasting": This tab focus on predicting future orders or sales. Using time series forecasting techniques and machine learning algorithms to generate forecasts based on historical data.
 
-- "Customer Forecasting": This tab is dedicated to forecasting customer-related metrics, such as customer classification trend, and customer lifetime value. Similar to the previous tab, using predictive modeling techniques to generate forecasts for these metrics. 
+- "Customer Forecasting": This tab is dedicated to forecasting customer-related metrics, such as customer classification trend, and customer lifetime value. Similar to the previous tab, using predictive modeling techniques to generate forecasts for these metrics.
 
 ```{r eval=FALSE}
 ui <- dashboardPage(
@@ -111,8 +92,8 @@ ui <- dashboardPage(
         sidebarLayout(
           sidebarPanel(
             # Add sidebar content for page 1 here
-            selectInput("page1_filter", "Page 1 Filter", 
-                        choices = c("Option 1", "Option 2"), 
+            selectInput("page1_filter", "Page 1 Filter",
+                        choices = c("Option 1", "Option 2"),
                         selected = "Option 1")
           ),
           mainPanel(
@@ -214,11 +195,11 @@ user_order <- function(data){
 
 ```{r eval=FALSE}
 hot_product <- function(data){
-    product <- data %>% 
-      group_by(product_name) %>% 
+    product <- data %>%
+      group_by(product_name) %>%
       summarise(count_order = n(),
-                sum_product_price = sum(product_price)) 
-    
+                sum_product_price = sum(product_price))
+
     return(product)
 }
 ```
@@ -238,9 +219,9 @@ merge_sum <- nrow(merged_data)
 
 sum
 # Calculating conversion rates
-convert_rate_action <- c(100, cf_sum[[1]] / pv_sum[[1]] * 100, 
+convert_rate_action <- c(100, cf_sum[[1]] / pv_sum[[1]] * 100,
                          buy_sum[[1]] / pv_sum[[1]] * 100)
-x_data <- c("Website visit", 
+x_data <- c("Website visit",
             "Add to cart & Add to favorite", "Buy product")
 
 # Creating data for funnel chart
@@ -272,8 +253,8 @@ merge_sum <- nrow(merged_data)
 
 sum
 # Calculating conversion rates
-convert_rate_action <- c(100, 
-                         cf_sum[[1]] / pv_sum[[1]] * 100, 
+convert_rate_action <- c(100,
+                         cf_sum[[1]] / pv_sum[[1]] * 100,
                          buy_sum[[1]] / pv_sum[[1]] * 100)
 x_data <- c("Website visit", "Add to cart & Add to favorite", "Buy product")
 
@@ -294,16 +275,16 @@ hc <- highchart() %>%
 ```
 
 ## Consumer segmentation using K-Means and RFM
-RFM: marketing technique used to quantitatively rank and group customers based on the recency, frequency and monetary total of their recent transactions to identify the best customers and perform targeted marketing campaigns. 
+RFM: marketing technique used to quantitatively rank and group customers based on the recency, frequency and monetary total of their recent transactions to identify the best customers and perform targeted marketing campaigns.
 RFM analysis is based on the marketing adage that “80% of your business comes from 20% of your customers.”
 
-- Recency. How recent was the customer's last purchase? 
-- Frequency. How often did this customer make a purchase in a given period? 
-- Monetary. How much money did the customer spend in a given period? 
+- Recency. How recent was the customer's last purchase?
+- Frequency. How often did this customer make a purchase in a given period?
+- Monetary. How much money did the customer spend in a given period?
 
-Then, using K-Means to cluster our consumer. 
+Then, using K-Means to cluster our consumer.
 
-- firstly, z-score standardization helps to adjust all data elements to a common scale to improve the performance of clustering algorithms. 
+- firstly, z-score standardization helps to adjust all data elements to a common scale to improve the performance of clustering algorithms.
 - using K-Means, I directly set 3 clusters.
 
 ```{r eval=FALSE}
@@ -323,13 +304,13 @@ centroids <- kmeans_result$centers
 k_mean_data$group <- clusters
 ```
 
-Then, the classification results are displayed. Use the radar map to illustrate the classification method. 
+Then, the classification results are displayed. Use the radar map to illustrate the classification method.
 
 - group1: the time since the last consumption is the shortest, although the frequency and monetary are low, but the consumption has been relatively active, they can be motivated by some promotional tools.
 
 - group3: customers are the frequency and monetary are the largest. They are high-value customers and need to be maintained.
 
-- group2: worst consumption behaviors. They are likely to be churned customers and 
+- group2: worst consumption behaviors. They are likely to be churned customers and
 - need to be activated
 
 ![](img/radar1.png)
@@ -339,9 +320,9 @@ Then, the classification results are displayed. Use the radar map to illustrate 
 ![](img/table1.png)
 
 ```{r eval=FALSE}
-centroids_restored <- centroids * attr(scaled_data, "scaled:scale") 
+centroids_restored <- centroids * attr(scaled_data, "scaled:scale")
 + attr(scaled_data, "scaled:center")
-    
+
 # Plot the radar chart
 group1 <- as.list(centroids_restored[1, ])
 group2 <- as.list(centroids_restored[2, ])
@@ -387,18 +368,18 @@ radar <- layout(
 
 ![](img/page1.png)
 
-Future order forecasting page was incorporated the shiny dashboard library for the sidebar layout. Graphs and figures were created using the ggplot2 library and data table. 
+Future order forecasting page was incorporated the shiny dashboard library for the sidebar layout. Graphs and figures were created using the ggplot2 library and data table.
 
 ### Data Preprocessing
 
 ```{r eval=FALSE}
 # Load data
-sales_data_raw <- read_csv('data/orders02.csv') 
+sales_data_raw <- read_csv('data/orders02.csv')
 
 # Select relevant data
-processed_data_tbl <- sales_data_raw %>% 
-  select(ORDERDATE, ORDERNUMBER, ORDERLINENUMBER, 
-         COUNTRY, SALES, PRODUCTLINE, 
+processed_data_tbl <- sales_data_raw %>%
+  select(ORDERDATE, ORDERNUMBER, ORDERLINENUMBER,
+         COUNTRY, SALES, PRODUCTLINE,
          DEALSIZE, STATUS, CUSTOMERNAME)
 
 # Pre-processing
@@ -417,45 +398,45 @@ To forcast the future order, linear regression can be utilized to forecast the y
 ```{r eval=FALSE}
 generate_forecast <-
 function(data, n_future = 12, seed = NULL) {
-  
-  train_tbl <- data %>% 
+
+  train_tbl <- data %>%
     tk_augment_timeseries_signature()
-  
+
   future_data_tbl <- data %>%
     tk_index() %>%
-    tk_make_future_timeseries(n_future = n_future, 
+    tk_make_future_timeseries(n_future = n_future,
                               inspect_weekdays = TRUE,
                               inspect_months = TRUE) %>%
-    tk_get_timeseries_signature() 
-  
-  # Isolate and pull scale 
+    tk_get_timeseries_signature()
+
+  # Isolate and pull scale
   time_scale <-  data %>%
     tk_index() %>%
     tk_get_timeseries_summary() %>%
     pull(scale)
-  
+
   # Linear Regression for "year", XGBoost for other time units
   if (time_scale == "year") {
-    
+
     model <- linear_reg(mode = "regression") %>%
       set_engine(engine = "lm") %>%
-      fit.model_spec(total_sales ~ ., 
+      fit.model_spec(total_sales ~ .,
                      data = train_tbl %>% select(total_sales, index.num))
-      
+
   } else {
     seed <- seed
     set.seed(seed)
     model <- boost_tree(
-      mode = "regression", 
-      mtry = 20, 
-      trees = 500, 
-      min_n = 3, 
-      tree_depth = 8, 
-      learn_rate = 0.01, 
+      mode = "regression",
+      mtry = 20,
+      trees = 500,
+      min_n = 3,
+      tree_depth = 8,
+      learn_rate = 0.01,
       loss_reduction = 0.01) %>%
       set_engine(engine = "xgboost") %>%
-      fit.model_spec(total_sales ~ ., 
-                     data = train_tbl %>% 
+      fit.model_spec(total_sales ~ .,
+                     data = train_tbl %>%
                        select(-date, -label_text, -diff))
   }
 ```
@@ -469,8 +450,8 @@ function(data, n_future = 12, seed = NULL) {
 
 ![radioGroupButtons](img/page4.png)
 
-The resulting dashboard application allowed users to filter purchase data, country, choose forcasting time-units(Day, week, month, quarter, and year) and horizons. For helping businesses identify patterns and trends in customer order. 
-Code example is as follows: 
+The resulting dashboard application allowed users to filter purchase data, country, choose forcasting time-units(Day, week, month, quarter, and year) and horizons. For helping businesses identify patterns and trends in customer order.
+Code example is as follows:
 
 ```{r eval=FALSE}
 library(shinyWidgets)
@@ -491,8 +472,8 @@ conditionalPanel(condition = "input.forecast_mode == 1",
                               min = 1  # At least 1 period in the future
                  )),
 # APPLY BUTTONS -----
-actionButton(inputId = "apply", 
-             label   = "Apply Forcast", 
+actionButton(inputId = "apply",
+             label   = "Apply Forcast",
              icon    = icon("play"),
              width   = '50%')
 ```
@@ -512,31 +493,31 @@ These reactive events differ in terms of how they are triggered and when the dat
 
 ```{r eval=FALSE}
 processed_data_filtered_tbl <- eventReactive(
-    eventExpr = input$apply, 
-    valueExpr = {     
-      processed_data_tbl %>%        
+    eventExpr = input$apply,
+    valueExpr = {
+      processed_data_tbl %>%
         # Date Range filter
         filter(ORDERDATE %>% between(left = as_datetime(input$date_range[1]),
-                                     right = as_datetime(input$date_range[2]))) %>%      
+                                     right = as_datetime(input$date_range[2]))) %>%
         # Picker filter: Country
         filter(COUNTRY %in% input$picker_country)  },
     ignoreNULL = FALSE  # Don't pass data as default: run code when app load )
 
-  observeEvent(eventExpr = input$time_unit, {    
-    if (input$forecast_mode) {     
-      delay(300, click(id = "apply")) 
-      # Add delay and simulate clicking actions in JavaScript } }) 
- 
+  observeEvent(eventExpr = input$time_unit, {
+    if (input$forecast_mode) {
+      delay(300, click(id = "apply"))
+      # Add delay and simulate clicking actions in JavaScript } })
+
  observeEvent(eventExpr = input$forecast_mode, {
-    delay(300, click(id = "apply")) 
+    delay(300, click(id = "apply"))
    # Add delay and simulate clicking actions in JavaScript
-  }, once = TRUE) 
+  }, once = TRUE)
 
   time_plot_tbl <- reactive({
     processed_data_filtered_tbl() %>%
       aggregate_time_series(time_unit = input$time_unit)})
-  
-  time_plot_predictions_tbl <- eventReactive(eventExpr = input$apply, {   
+
+  time_plot_predictions_tbl <- eventReactive(eventExpr = input$apply, {
     if (input$forecast_mode) {
       time_plot_tbl() %>%
         generate_forecast(n_future = input$n_future, seed = 123) }})
@@ -550,24 +531,24 @@ We will create our own R packages **"Predict Future Order"** to encapsulate the 
 
 - **aggregate_time_series:** Aggregate_time_series: This function produces a new time dimension based on dates, such as day, week, month, quarter or year, and it calculates the total sales per time unit.
 
-```{r eval=FALSE} 
+```{r eval=FALSE}
 #' A function that aggregates time series data
 #'
 #'This function aggregates the given data based on the specified time unit.
 #'time_unit value includes "day", "week", "month", "quarter", "year".
-#'Then it calculates the total sales for 
+#'Then it calculates the total sales for
 #'each time unit and generates the time series info.
 #' @author Ting Wei
 #' @param data A tibble format data, including the following columns:
-#'   - ORDERDATE: A column in POSIXct format, 
+#'   - ORDERDATE: A column in POSIXct format,
 #'   e.g., "2020-02-24", representing the order dates.
 #'   - SALES: A column recording the sales price.
-#' @param time_unit A character string specifying 
+#' @param time_unit A character string specifying
 #' the time unit to aggregate the data (default: "month").
 #' @param ORDERDATE A column in POSIXct format, e.g.,
 #'  "2020-02-24", representing the order dates.
 #' @param SALES A column recording the sales price.
-#' @return A tibble with the aggregated data, 
+#' @return A tibble with the aggregated data,
 #' including the date and total sales.
 #' @examples
 #' # Example data
@@ -612,14 +593,14 @@ aggregate_time_series <-
 ```{r eval=FALSE}
 #' A function that generates forecasts for the time series data
 #'
-#' This function generates forecasts for the future 
+#' This function generates forecasts for the future
 #' time periods based on the given data.
 #'
 #' @param data A data frame containing the time series data.
-#' @param n_future An integer specifying the number 
+#' @param n_future An integer specifying the number
 #' of future periods to forecast (default: 12 and min:1).
 #' @param seed An optional seed for reproducibility (default: NULL).
-#' @return A data frame with the actual 
+#' @return A data frame with the actual
 #' and predicted values for the time series data.
 #' @import dplyr
 #' @import parsnip
@@ -712,54 +693,54 @@ To forecast a customer's future behavior and belonging group. Analyze the predic
 ```{r eval=FALSE}
 customer_forecast <-
   function(data, n_future = 12, seed = NULL) {
-    
-    train_tbl <- data %>% 
+
+    train_tbl <- data %>%
       tk_augment_timeseries_signature()
-    
+
     future_data_tbl <- data %>%
       tk_index() %>%unique()%>%
-      tk_make_future_timeseries(n_future = n_future, 
-                                inspect_weekdays = TRUE, 
+      tk_make_future_timeseries(n_future = n_future,
+                                inspect_weekdays = TRUE,
                                 inspect_months = TRUE) %>%
-      tk_get_timeseries_signature() 
-    
-    future_data_tbl<- future_data_tbl[rep(row.names(future_data_tbl), 
+      tk_get_timeseries_signature()
+
+    future_data_tbl<- future_data_tbl[rep(row.names(future_data_tbl),
                                           each = 3), ]
-    
-    categories <- c("Retain_Customers", 
+
+    categories <- c("Retain_Customers",
                     "Lost_Customers", "Important_Vip")
     num_rows <- nrow(future_data_tbl)
     repeated_categories <- rep(categories, length.out = num_rows)
     future_data_tbl$classification <- repeated_categories
-    
-    # Isolate and pull scale 
+
+    # Isolate and pull scale
     time_scale <-  data %>%
       tk_index() %>%unique()%>%
       tk_get_timeseries_summary() %>%
       pull(scale)
-    
+
     # Linear Regression for "year", XGBoost for other time units
     if (time_scale == "year") {
       model <- linear_reg(mode = "regression") %>%
         set_engine(engine = "lm") %>%
-        fit.model_spec(total_num ~ ., 
-                       data = train_tbl %>% 
+        fit.model_spec(total_num ~ .,
+                       data = train_tbl %>%
                          select(total_num,classification ,index.num))
     } else {
       seed <- seed
       set.seed(seed)
       model <- boost_tree(
-        mode = "regression", 
-        mtry = 20, 
-        trees = 500, 
-        min_n = 3, 
-        tree_depth = 8, 
-        learn_rate = 0.01, 
+        mode = "regression",
+        mtry = 20,
+        trees = 500,
+        min_n = 3,
+        tree_depth = 8,
+        learn_rate = 0.01,
         loss_reduction = 0.01) %>%
         set_engine(engine = "xgboost") %>%
-        fit.model_spec(total_num ~ ., 
+        fit.model_spec(total_num ~ .,
                        data = train_tbl %>% select(-date,  -diff))
-      
+
     }
 ```
 
