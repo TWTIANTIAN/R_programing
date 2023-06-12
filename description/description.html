@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.340">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Yiqing Hu">
+<meta name="author" content="Ting Wei">
+<meta name="author" content="Xinchen Yang">
+<meta name="author" content="Ludi Feng">
+<meta name="dcterms.date" content="2023-06-09">
+
+<title>Data Visualization Platform Report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="description_files/libs/clipboard/clipboard.min.js"></script>
+<script src="description_files/libs/quarto-html/quarto.js"></script>
+<script src="description_files/libs/quarto-html/popper.min.js"></script>
+<script src="description_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="description_files/libs/quarto-html/anchor.min.js"></script>
+<link href="description_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="description_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="description_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="description_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="description_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="description_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="description_files/libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+
+
+</head>
+
+<body>
+
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Data Visualization Platform Report</h1>
+                      </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Authors</div>
+      <div class="quarto-title-meta-contents">
+               <p>Yiqing Hu </p>
+               <p>Ting Wei </p>
+               <p>Xinchen Yang </p>
+               <p>Ludi Feng </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 9, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#project-introduction" id="toc-project-introduction" class="nav-link active" data-scroll-target="#project-introduction"><span class="header-section-number">1</span> PROJECT INTRODUCTION</a></li>
+  <li><a href="#approch-method-used" id="toc-approch-method-used" class="nav-link" data-scroll-target="#approch-method-used"><span class="header-section-number">2</span> APPROCH / METHOD USED</a>
+  <ul class="collapse">
+  <li><a href="#writing-own-advanced-functions-in-r" id="toc-writing-own-advanced-functions-in-r" class="nav-link" data-scroll-target="#writing-own-advanced-functions-in-r"><span class="header-section-number">2.1</span> Writing own advanced functions in R</a></li>
+  <li><a href="#object-oriented-programming" id="toc-object-oriented-programming" class="nav-link" data-scroll-target="#object-oriented-programming"><span class="header-section-number">2.2</span> Object-oriented programming</a></li>
+  <li><a href="#using-of-c-in-r" id="toc-using-of-c-in-r" class="nav-link" data-scroll-target="#using-of-c-in-r"><span class="header-section-number">2.3</span> Using of C++ in R</a></li>
+  <li><a href="#vectorisation-of-the-code" id="toc-vectorisation-of-the-code" class="nav-link" data-scroll-target="#vectorisation-of-the-code"><span class="header-section-number">2.4</span> Vectorisation of the code</a></li>
+  <li><a href="#shiny-creating-analytical-dashboards" id="toc-shiny-creating-analytical-dashboards" class="nav-link" data-scroll-target="#shiny-creating-analytical-dashboards"><span class="header-section-number">2.5</span> Shiny + creating analytical dashboards</a></li>
+  <li><a href="#creating-own-r-packages" id="toc-creating-own-r-packages" class="nav-link" data-scroll-target="#creating-own-r-packages"><span class="header-section-number">2.6</span> Creating own R packages</a></li>
+  </ul></li>
+  <li><a href="#platforms-structure" id="toc-platforms-structure" class="nav-link" data-scroll-target="#platforms-structure"><span class="header-section-number">3</span> PLATFORMS STRUCTURE</a></li>
+  <li><a href="#data-visualization-platforms" id="toc-data-visualization-platforms" class="nav-link" data-scroll-target="#data-visualization-platforms"><span class="header-section-number">4</span> DATA VISUALIZATION PLATFORMS</a>
+  <ul class="collapse">
+  <li><a href="#user-activity-visualization" id="toc-user-activity-visualization" class="nav-link" data-scroll-target="#user-activity-visualization"><span class="header-section-number">4.1</span> User Activity Visualization</a></li>
+  <li><a href="#order-data-analysis" id="toc-order-data-analysis" class="nav-link" data-scroll-target="#order-data-analysis"><span class="header-section-number">4.2</span> Order data analysis</a></li>
+  <li><a href="#funnel-model-for-conversion-rate" id="toc-funnel-model-for-conversion-rate" class="nav-link" data-scroll-target="#funnel-model-for-conversion-rate"><span class="header-section-number">4.3</span> Funnel model for conversion rate</a></li>
+  <li><a href="#consumer-segmentation-using-k-means-and-rfm" id="toc-consumer-segmentation-using-k-means-and-rfm" class="nav-link" data-scroll-target="#consumer-segmentation-using-k-means-and-rfm"><span class="header-section-number">4.4</span> Consumer segmentation using K-Means and RFM</a></li>
+  <li><a href="#future-order-forcast" id="toc-future-order-forcast" class="nav-link" data-scroll-target="#future-order-forcast"><span class="header-section-number">4.5</span> Future Order Forcast</a></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization"><span class="header-section-number">4.6</span> Visualization</a></li>
+  <li><a href="#customer-forcast" id="toc-customer-forcast" class="nav-link" data-scroll-target="#customer-forcast"><span class="header-section-number">4.7</span> Customer Forcast</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="project-introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> PROJECT INTRODUCTION</h1>
+<p>The goal of this project was to create a dashboard application for an e-commerce company’s marketing, product development, and sales teams. The application utilizes customer data to provide insights for developing products and marketing plans targeted towards improving customer engagement and sales.</p>
+<p>The project used an e-commerce dataset, which contained information about customer behavior data, purchase history, product preferences, customer segmentation, and future forcasting of order and consumer.</p>
+<p>Data preprocessing steps were outlined, including data cleaning and user interface design using shinydashboard. The server function was described, highlighting the filtering of data and creation of reactive datasets. The report also mentioned the use of info boxes and graphs in the dashboard.</p>
+<p>Overall, the project created a dashboard application that presented e-commerce data in a visually informative way, helping marketing, product development, and sales teams make data-driven decisions.</p>
+</section>
+<section id="approch-method-used" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> APPROCH / METHOD USED</h1>
+<section id="writing-own-advanced-functions-in-r" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="writing-own-advanced-functions-in-r"><span class="header-section-number">2.1</span> Writing own advanced functions in R</h2>
+<p>Based on our specific requirements for data visualization, define the function you want to create. Consider the parameters the function should accept, such as the input data, visualization type, customization options, or filters. In order to visualize e-commerce data within the platform. Provide the necessary inputs and parameters to generate the desired visualizations based on the function’s capabilities.</p>
+</section>
+<section id="object-oriented-programming" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="object-oriented-programming"><span class="header-section-number">2.2</span> Object-oriented programming</h2>
+<p>Create instances of the defined classes as needed within the e-commerce data visualization platform. Also implement some method based on the object-oriented programming</p>
+</section>
+<section id="using-of-c-in-r" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="using-of-c-in-r"><span class="header-section-number">2.3</span> Using of C++ in R</h2>
+<p>We will use Rcpp to interface with C++ code for computationally intensive tasks. This will enable us to take advantage of the speed and memory efficiency of C++ for critical parts of our application.</p>
+<p>We achieve an C++ implementation of the K-means clustering algorithm using the Rcpp library to integrate with R and perform the clustering using the kmeans function from the “stats” package.</p>
+</section>
+<section id="vectorisation-of-the-code" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="vectorisation-of-the-code"><span class="header-section-number">2.4</span> Vectorisation of the code</h2>
+<p>Using vectorization techniques to optimize our code and make it more efficient. This will help us process large datasets quickly and accurately, and enhance the user experience.</p>
+<p>We will have a dataset of customer transactions with timestamps, and we want to calculate the number of transactions that occurred within each hour of the day. Instead of using explicit loops, we can leverage vectorization techniques in R to perform this calculation efficiently.</p>
+<p>By utilizing vectorization, we eliminate the need for explicit loops and perform the calculation efficiently using built-in functions. This approach is particularly useful when dealing with large datasets or performing repetitive calculations.</p>
+<p>Similarly, we can apply vectorization techniques to other scenarios in our project, such as calculating statistics or performing aggregations based on specific time intervals or other criteria.</p>
+<p>By leveraging vectorization, we can process data efficiently and perform calculations on large datasets in a concise and optimized manner, leading to improved performance and overall efficiency in our project</p>
+</section>
+<section id="shiny-creating-analytical-dashboards" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="shiny-creating-analytical-dashboards"><span class="header-section-number">2.5</span> Shiny + creating analytical dashboards</h2>
+<p>We will leverage Shiny to create interactive and responsive dashboards that enable users to explore and visualize data, and make informed decisions. These dashboards will be user-friendly, intuitive, and aesthetically pleasing.</p>
+</section>
+<section id="creating-own-r-packages" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="creating-own-r-packages"><span class="header-section-number">2.6</span> Creating own R packages</h2>
+<p>We will create our own R package to encapsulate the functionality we have developed. This package includes the generation of time series data. As long as the original data has a basic time format, new time series can be generated, including the year, quarter, month, week, and day, and model training of different dimensions based on the newly generated data. and forecast. Thus the new package will be data compatible, modular, reusable and easy to maintain. We will also leverage existing packages such as tidyverse, machine learning techniques or time series/spatial data analysis to enhance our new packages.</p>
+<p><img src="img/R_pkg.png" class="img-fluid"></p>
+<ul>
+<li>aggregate_time_series</li>
+</ul>
+<p><img src="img/aggregate_time_series.png" class="img-fluid"></p>
+<ul>
+<li>generate_forecast</li>
+</ul>
+<p><img src="img/generate_forecast.png" class="img-fluid"></p>
+<ul>
+<li>plot_forecast</li>
+</ul>
+<p><img src="img/plot_forecast.png" class="img-fluid"></p>
+<ul>
+<li>plot_time_series</li>
+</ul>
+<p><img src="img/plot_time_series.png" class="img-fluid"></p>
+</section>
+</section>
+<section id="platforms-structure" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> PLATFORMS STRUCTURE</h1>
+<p>Using the shinydashboard package in R. which sets up a dashboard with a header, sidebar, and main panel, and defines different tabs for each page. In the platform, there are six tabs:</p>
+<ul>
+<li><p>“Customer Activity Analysis”: This tab includes visualizations and analysis related to customer activity. Such as website visits, clicks, or logins, over a certain period.</p></li>
+<li><p>“Customer Order Analysis”: This tab focus on analyzing customer orders. Such as the total number of orders, revenue generated, the most popular products purchased, order trends over time.</p></li>
+<li><p>“Conversion Rate”: This tab could be dedicated to analyzing conversion rates, which refer to the percentage of users who complete a desired action (e.g., making a purchase) out of the total number of users who visit a specific page or take a specific action.</p></li>
+<li><p>“Consumer Segmentation”: This tab involves segmenting customers based on specific characteristics or behaviors. Such as high-value customers, frequent buyers, or lost customer.</p></li>
+<li><p>“Future Order Forecasting”: This tab focus on predicting future orders or sales. Using time series forecasting techniques and machine learning algorithms to generate forecasts based on historical data.</p></li>
+<li><p>“Customer Forecasting”: This tab is dedicated to forecasting customer-related metrics, such as customer classification trend, and customer lifetime value. Similar to the previous tab, using predictive modeling techniques to generate forecasts for these metrics.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">dashboardPage</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dashboardHeader</span>(<span class="at">title =</span> <span class="st">"Customer Dashboard"</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dashboardSidebar</span>(</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarMenu</span>( <span class="at">width =</span> <span class="dv">160</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">id =</span> <span class="st">"sidebar"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="st">"Customer Activity Analysis-HJ"</span>, <span class="at">tabName =</span> <span class="st">"page1"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="st">"Customer Order Analysis-HJ"</span>, <span class="at">tabName =</span> <span class="st">"page2"</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="st">"Conversion Rate-YXC"</span>, <span class="at">tabName =</span> <span class="st">"page3"</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="st">"Consumer Segmentation-YXC"</span>, <span class="at">tabName =</span> <span class="st">"page4"</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="st">"Future Order Forecasting-WT"</span>, <span class="at">tabName =</span> <span class="st">"page5"</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">menuItem</span>(<span class="st">"Customer Forecasting-WT"</span>, <span class="at">tabName =</span> <span class="st">"page6"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dashboardBody</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabItems</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Page 1</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tabItem</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">tabName =</span> <span class="st">"page1"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sidebarLayout</span>(</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>          <span class="fu">sidebarPanel</span>(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add sidebar content for page 1 here</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="fu">selectInput</span>(<span class="st">"page1_filter"</span>, <span class="st">"Page 1 Filter"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                        <span class="at">choices =</span> <span class="fu">c</span>(<span class="st">"Option 1"</span>, <span class="st">"Option 2"</span>),</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                        <span class="at">selected =</span> <span class="st">"Option 1"</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>          ),</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>          <span class="fu">mainPanel</span>(</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            <span class="fu">h2</span>(<span class="st">"Page 1"</span>),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Add main panel content for page 1 here</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>            <span class="fu">textOutput</span>(<span class="st">"page1_output"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="data-visualization-platforms" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> DATA VISUALIZATION PLATFORMS</h1>
+<section id="user-activity-visualization" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="user-activity-visualization"><span class="header-section-number">4.1</span> User Activity Visualization</h2>
+<p>In order to know how many customers browse ebuy platform every day，compare the UV and PV of the website when the user browses the website.</p>
+<p><img src="img/pv_uv.png" class="img-fluid"></p>
+<ul>
+<li><p>UV：Unique Visitor, basic indicators for evaluating user activity on network platforms</p></li>
+<li><p>PV: Page Views</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>user_activity_daily <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  activity <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(date) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">UV =</span> <span class="fu">n_distinct</span>(user_id), <span class="at">PV =</span> <span class="fu">n</span>())</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> (activity)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="img/pv_uv_2.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>user_activity_hour <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    hour <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(hour) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(<span class="at">UV =</span> <span class="fu">n_distinct</span>(user_id), <span class="at">PV =</span> <span class="fu">n</span>())</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span> (hour)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="img/pvuv3.png" class="img-fluid"></p>
+<p>Understand the stickiness of customers to ebuy platform, and count the daily and hourly per capita PV value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>average_pv1 <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  average1 <span class="ot">&lt;-</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    data <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(date) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">UV =</span> <span class="fu">n_distinct</span>(user_id), <span class="at">PV =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">PVmeandaily =</span> PV<span class="sc">/</span>UV)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(average1)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>average_pv2 <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  average2 <span class="ot">&lt;-</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    data <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(hour) <span class="sc">%&gt;%</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">UV =</span> <span class="fu">n_distinct</span>(user_id), <span class="at">PV =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">PVmeanhourly =</span> PV<span class="sc">/</span>UV)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(average2)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="order-data-analysis" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="order-data-analysis"><span class="header-section-number">4.2</span> Order data analysis</h2>
+<p><img src="img/order.png" class="img-fluid"></p>
+<ul>
+<li><p>How many orders are generated every day?</p></li>
+<li><p>How many GMV（Gross Merchandise Volume）per day?</p></li>
+</ul>
+<p><strong>The answer is “User order data graph”</strong></p>
+<p>Why GMV is important ?</p>
+<ol type="1">
+<li><p>Performance measurement: GMV provides an overall measure of the scale and growth of a platform’s business. It helps track the platform’s sales performance and evaluate its success in attracting buyers and sellers.</p></li>
+<li><p>Revenue generation: Many online marketplaces generate revenue by charging fees or commissions based on a percentage of the GMV. Thus, GMV directly impacts the platform’s revenue potential.</p></li>
+<li><p>Market share comparison: GMV allows comparisons between different e-commerce platforms or online marketplaces. It helps investors, analysts, and stakeholders assess the market presence and competitiveness of a platform relative to its peers.</p></li>
+<li><p>Valuation: GMV is sometimes used as a key factor in valuing e-commerce businesses, especially in startup or investment scenarios. Higher GMV figures can positively influence the valuation of a platform.</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>user_order <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  user <span class="ot">&lt;-</span>  data <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(date) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">distinct_users =</span> <span class="fu">n_distinct</span>(user_id),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">total_products =</span> <span class="fu">n</span>(),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">total_price =</span> <span class="fu">sum</span>(product_price))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(user)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="img/hot.png" class="img-fluid"></p>
+<ul>
+<li>Want to know which product is the most popular?</li>
+<li>How many sales of hot-selling products per day?</li>
+<li>What is the daily income of hot-selling products?</li>
+</ul>
+<p><strong>The answer is “Hot product chart”</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>hot_product <span class="ot">&lt;-</span> <span class="cf">function</span>(data){</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    product <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(product_name) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">count_order =</span> <span class="fu">n</span>(),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">sum_product_price =</span> <span class="fu">sum</span>(product_price))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(product)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="funnel-model-for-conversion-rate" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="funnel-model-for-conversion-rate"><span class="header-section-number">4.3</span> Funnel model for conversion rate</h2>
+<p>The conversion rate of users in the shopping process is one of the most important indicators of e-commerce platforms. The higher the conversion rate, the higher the stickiness of users to the platform.</p>
+<p><img src="img/funnel1.png" class="img-fluid"></p>
+<ul>
+<li>The funnel conversion rate model for user behavior：</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pv_sum  <span class="ot">&lt;-</span> <span class="fu">length</span>(pv_data_object<span class="sc">@</span>behavior_id)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cf_sum  <span class="ot">&lt;-</span> <span class="fu">length</span>(cf_data_object<span class="sc">@</span>behavior_id)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>buy_sum  <span class="ot">&lt;-</span> <span class="fu">length</span>(buy_data_object<span class="sc">@</span>behavior_id)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>merge_sum <span class="ot">&lt;-</span> <span class="fu">nrow</span>(merged_data)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>sum</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating conversion rates</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>convert_rate_action <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>, cf_sum[[<span class="dv">1</span>]] <span class="sc">/</span> pv_sum[[<span class="dv">1</span>]] <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                         buy_sum[[<span class="dv">1</span>]] <span class="sc">/</span> pv_sum[[<span class="dv">1</span>]] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>x_data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Website visit"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Add to cart &amp; Add to favorite"</span>, <span class="st">"Buy product"</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating data for funnel chart</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> x_data, <span class="at">y =</span> convert_rate_action)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating funnel chart</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">highchart</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_chart</span>(<span class="at">type =</span> <span class="st">"funnel"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_title</span>(<span class="at">text =</span> <span class="st">"conversion_rate_action"</span>,</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>           <span class="at">subtitle =</span> <span class="st">"Browse --&gt; Purchase&amp;Favorite --&gt; Purchase"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_series</span>(<span class="at">data =</span> data,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"funnel"</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> <span class="st">""</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>                <span class="at">dataLabels =</span> <span class="fu">list</span>(<span class="at">enabled =</span> <span class="cn">TRUE</span>, <span class="at">inside =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">tooltip =</span> <span class="fu">list</span>(<span class="at">pointFormat =</span> <span class="st">"{point.name}: {point.y}%"</span>),</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">borderColor =</span> <span class="st">"#fff"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>                <span class="at">borderWidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><img src="img/funnel2.png" class="img-fluid"></p>
+<ul>
+<li>The funnel conversion rate model for individual users:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pv_sum  <span class="ot">&lt;-</span> <span class="fu">length</span>(pv_data_object<span class="sc">@</span>behavior_id)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cf_sum  <span class="ot">&lt;-</span> <span class="fu">length</span>(cf_data_object<span class="sc">@</span>behavior_id)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>buy_sum  <span class="ot">&lt;-</span> <span class="fu">length</span>(buy_data_object<span class="sc">@</span>behavior_id)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>merge_sum <span class="ot">&lt;-</span> <span class="fu">nrow</span>(merged_data)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>sum</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculating conversion rates</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>convert_rate_action <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                         cf_sum[[<span class="dv">1</span>]] <span class="sc">/</span> pv_sum[[<span class="dv">1</span>]] <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                         buy_sum[[<span class="dv">1</span>]] <span class="sc">/</span> pv_sum[[<span class="dv">1</span>]] <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>x_data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Website visit"</span>, <span class="st">"Add to cart &amp; Add to favorite"</span>, <span class="st">"Buy product"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating data for funnel chart</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">name =</span> x_data, <span class="at">y =</span> convert_rate_action)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating funnel chart</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>hc <span class="ot">&lt;-</span> <span class="fu">highchart</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_chart</span>(<span class="at">type =</span> <span class="st">"funnel"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_title</span>(<span class="at">text =</span> <span class="st">"conversion_rate_action"</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>           <span class="at">subtitle =</span> <span class="st">"Browse --&gt; Purchase&amp;Favorite --&gt; Purchase"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hc_add_series</span>(<span class="at">data =</span> data,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"funnel"</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                <span class="at">name =</span> <span class="st">""</span>,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>                <span class="at">dataLabels =</span> <span class="fu">list</span>(<span class="at">enabled =</span> <span class="cn">TRUE</span>, <span class="at">inside =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">tooltip =</span> <span class="fu">list</span>(<span class="at">pointFormat =</span> <span class="st">"{point.name}: {point.y}%"</span>),</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                <span class="at">borderColor =</span> <span class="st">"#fff"</span>,<span class="at">borderWidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="consumer-segmentation-using-k-means-and-rfm" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="consumer-segmentation-using-k-means-and-rfm"><span class="header-section-number">4.4</span> Consumer segmentation using K-Means and RFM</h2>
+<p>RFM: marketing technique used to quantitatively rank and group customers based on the recency, frequency and monetary total of their recent transactions to identify the best customers and perform targeted marketing campaigns. RFM analysis is based on the marketing adage that “80% of your business comes from 20% of your customers.”</p>
+<ul>
+<li>Recency. How recent was the customer’s last purchase?</li>
+<li>Frequency. How often did this customer make a purchase in a given period?</li>
+<li>Monetary. How much money did the customer spend in a given period?</li>
+</ul>
+<p>Then, using K-Means to cluster our consumer.</p>
+<ul>
+<li>firstly, z-score standardization helps to adjust all data elements to a common scale to improve the performance of clustering algorithms.</li>
+<li>using K-Means, I directly set 3 clusters.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>scaled_data <span class="ot">&lt;-</span> k_mean_data <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>user_id) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform k-means clustering</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">3</span>  <span class="co"># Number of clusters</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>kmeans_result <span class="ot">&lt;-</span> <span class="fu">kmeans</span>(scaled_data, <span class="at">centers =</span> k, <span class="at">nstart =</span> <span class="dv">10</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Get cluster assignments and cluster centers</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>clusters <span class="ot">&lt;-</span> kmeans_result<span class="sc">$</span>cluster</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>centroids <span class="ot">&lt;-</span> kmeans_result<span class="sc">$</span>centers</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Add cluster assignments to the dataframe</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>k_mean_data<span class="sc">$</span>group <span class="ot">&lt;-</span> clusters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, the classification results are displayed. Use the radar map to illustrate the classification method.</p>
+<ul>
+<li><p>group1: the time since the last consumption is the shortest, although the frequency and monetary are low, but the consumption has been relatively active, they can be motivated by some promotional tools.</p></li>
+<li><p>group3: customers are the frequency and monetary are the largest. They are high-value customers and need to be maintained.</p></li>
+<li><p>group2: worst consumption behaviors. They are likely to be churned customers and</p></li>
+<li><p>need to be activated</p></li>
+</ul>
+<p><img src="img/radar1.png" class="img-fluid"></p>
+<p><img src="img/radar2.png" class="img-fluid"></p>
+<p><img src="img/table1.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>centroids_restored <span class="ot">&lt;-</span> centroids <span class="sc">*</span> <span class="fu">attr</span>(scaled_data, <span class="st">"scaled:scale"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="sc">+</span> <span class="fu">attr</span>(scaled_data, <span class="st">"scaled:center"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the radar chart</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>group1 <span class="ot">&lt;-</span> <span class="fu">as.list</span>(centroids_restored[<span class="dv">1</span>, ])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>group2 <span class="ot">&lt;-</span> <span class="fu">as.list</span>(centroids_restored[<span class="dv">2</span>, ])</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>group3 <span class="ot">&lt;-</span> <span class="fu">as.list</span>(centroids_restored[<span class="dv">3</span>, ])</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>radar <span class="ot">&lt;-</span> <span class="fu">plot_ly</span>(<span class="at">type =</span> <span class="st">'scatterpolar'</span>, <span class="at">mode =</span> <span class="st">'lines'</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>radar <span class="ot">&lt;-</span> <span class="fu">add_trace</span>(</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  radar,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">r =</span> <span class="fu">c</span>(group1<span class="sc">$</span>recency, group1<span class="sc">$</span>frequency, group1<span class="sc">$</span>monetary),</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> <span class="fu">c</span>(<span class="st">'recency'</span>, <span class="st">'frequency'</span>, <span class="st">'monetary'</span>),</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">'toself'</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">'group1'</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'#f9713c'</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>radar <span class="ot">&lt;-</span> <span class="fu">add_trace</span>(</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  radar,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">r =</span> <span class="fu">c</span>(group2<span class="sc">$</span>recency, group2<span class="sc">$</span>frequency, group2<span class="sc">$</span>monetary),</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> <span class="fu">c</span>(<span class="st">'recency'</span>, <span class="st">'frequency'</span>, <span class="st">'monetary'</span>),</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">'toself'</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">'group2'</span>,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'#b3e4a1'</span>)</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>radar <span class="ot">&lt;-</span> <span class="fu">add_trace</span>(</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  radar,</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">r =</span> <span class="fu">c</span>(group3<span class="sc">$</span>recency, group3<span class="sc">$</span>frequency, group3<span class="sc">$</span>monetary),</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> <span class="fu">c</span>(<span class="st">'recency'</span>, <span class="st">'frequency'</span>, <span class="st">'monetary'</span>),</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">fill =</span> <span class="st">'toself'</span>,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">'group3'</span>,</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">line =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">'#5CACEE'</span>)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>radar <span class="ot">&lt;-</span> <span class="fu">layout</span>(</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  radar,</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">'Radar-Buyer Group'</span>,</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">showlegend =</span> <span class="cn">TRUE</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="future-order-forcast" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="future-order-forcast"><span class="header-section-number">4.5</span> Future Order Forcast</h2>
+<p><img src="img/page1.png" class="img-fluid"></p>
+<p>Future order forecasting page was incorporated the shiny dashboard library for the sidebar layout. Graphs and figures were created using the ggplot2 library and data table.</p>
+<section id="data-preprocessing" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="data-preprocessing"><span class="header-section-number">4.5.1</span> Data Preprocessing</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sales_data_raw <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'data/orders02.csv'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select relevant data</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>processed_data_tbl <span class="ot">&lt;-</span> sales_data_raw <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(ORDERDATE, ORDERNUMBER, ORDERLINENUMBER,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         COUNTRY, SALES, PRODUCTLINE,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         DEALSIZE, STATUS, CUSTOMERNAME)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Pre-processing</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>processed_data_tbl <span class="ot">&lt;-</span> processed_data_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ORDERDATE =</span> <span class="fu">mdy_hm</span>(ORDERDATE),</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">ORDERDATE =</span> <span class="fu">as_datetime</span>(ORDERDATE))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Manual edits</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>processed_data_tbl<span class="sc">$</span>COUNTRY[processed_data_tbl<span class="sc">$</span>COUNTRY<span class="sc">==</span><span class="st">"UK"</span>] <span class="ot">&lt;-</span> <span class="st">"United Kingdom"</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>processed_data_tbl<span class="sc">$</span>COUNTRY[processed_data_tbl<span class="sc">$</span>COUNTRY<span class="sc">==</span><span class="st">"USA"</span>] <span class="ot">&lt;-</span> <span class="st">"United States"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="modeling" class="level3" data-number="4.5.2">
+<h3 data-number="4.5.2" class="anchored" data-anchor-id="modeling"><span class="header-section-number">4.5.2</span> Modeling</h3>
+<p>To forcast the future order, linear regression can be utilized to forecast the year order, while a gradient boosting machine (GBM) can be employed to predict the quarter，month, week, and day order. Gradient boosting machines are powerful machine learning algorithms that combine multiple weak prediction models to create a strong ensemble model. In the case of forecasting the month, week, and day order, a GBM can be trained using historical data on past order patterns to create a predictive model that can anticipate the specific month, week, and day when a customer is likely to place an order.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>generate_forecast <span class="ot">&lt;-</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(data, <span class="at">n_future =</span> <span class="dv">12</span>, <span class="at">seed =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  train_tbl <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_augment_timeseries_signature</span>()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  future_data_tbl <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_index</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_make_future_timeseries</span>(<span class="at">n_future =</span> n_future,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                              <span class="at">inspect_weekdays =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">inspect_months =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_get_timeseries_signature</span>()</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Isolate and pull scale</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  time_scale <span class="ot">&lt;-</span>  data <span class="sc">%&gt;%</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_index</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_get_timeseries_summary</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(scale)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Linear Regression for "year", XGBoost for other time units</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (time_scale <span class="sc">==</span> <span class="st">"year"</span>) {</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit.model_spec</span>(total_sales <span class="sc">~</span> .,</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> train_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(total_sales, index.num))</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>    seed <span class="ot">&lt;-</span> seed</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(seed)</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">boost_tree</span>(</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">mtry =</span> <span class="dv">20</span>,</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">trees =</span> <span class="dv">500</span>,</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">min_n =</span> <span class="dv">3</span>,</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>      <span class="at">tree_depth =</span> <span class="dv">8</span>,</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">learn_rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>      <span class="at">loss_reduction =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"xgboost"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit.model_spec</span>(total_sales <span class="sc">~</span> .,</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> train_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">select</span>(<span class="sc">-</span>date, <span class="sc">-</span>label_text, <span class="sc">-</span>diff))</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="visualization" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="visualization"><span class="header-section-number">4.6</span> Visualization</h2>
+<section id="filter-area" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="filter-area"><span class="header-section-number">4.6.1</span> Filter area</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/page2.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">airDatepickerInput</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/page3.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">pickerInput</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/page4.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">radioGroupButtons</figcaption>
+</figure>
+</div>
+<p>The resulting dashboard application allowed users to filter purchase data, country, choose forcasting time-units(Day, week, month, quarter, and year) and horizons. For helping businesses identify patterns and trends in customer order. Code example is as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shinyWidgets)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">switchInput</span>(<span class="at">inputId =</span> <span class="st">"forecast_mode"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">handleWidth =</span> <span class="dv">100</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">labelWidth =</span> <span class="dv">100</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">inline =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">value =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">onStatus =</span> <span class="st">"info"</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">onLabel =</span> <span class="st">"On"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">offLabel =</span> <span class="st">"Off"</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">width =</span> <span class="st">"200px"</span>),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">conditionalPanel</span>(<span class="at">condition =</span> <span class="st">"input.forecast_mode == 1"</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">numericInput</span>(<span class="at">inputId =</span> <span class="st">"n_future"</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                              <span class="at">label =</span> <span class="st">"Forecast Horizon"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                              <span class="at">value =</span> <span class="dv">12</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">min =</span> <span class="dv">1</span>  <span class="co"># At least 1 period in the future</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                 )),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co"># APPLY BUTTONS -----</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="fu">actionButton</span>(<span class="at">inputId =</span> <span class="st">"apply"</span>,</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">label   =</span> <span class="st">"Apply Forcast"</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">icon    =</span> <span class="fu">icon</span>(<span class="st">"play"</span>),</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">width   =</span> <span class="st">'50%'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="reactive-events" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="reactive-events"><span class="header-section-number">4.6.2</span> Reactive events</h3>
+<p>Here are several reactive events implemented using different methods:</p>
+<ul>
+<li><p>Button Click Event: Using the observeEvent method, the reactive code is triggered when the user clicks the “Apply” button. This means that after selecting the data filter, the user needs to manually click the button to update the data visualization results.</p></li>
+<li><p>Time Unit Button Event: Using the observeEvent method, the reactive code is triggered when the user clicks the “Time Unit” button, simulating the effect of clicking the “Apply” button. This means that after selecting the time unit, there is no need to manually click the “Apply” button as the data visualization results will automatically update.</p></li>
+<li><p>Reactive Expression based on Input: Using the reactive method, a reactive expression is created based on user input. The reactive expression will automatically recompute and update the data visualization results when the input value changes.</p></li>
+<li><p>Reactive Event for Forecast Switch: Using the eventReactive method, a reactive event is created that triggers when the forecast switch status changes. This can be used to execute code related to forecasting, such as generating forecast results based on the selected time unit.</p></li>
+</ul>
+<p>These reactive events differ in terms of how they are triggered and when the data visualization results are updated. Reactive expressions automatically recalculate when input values change, while the reactive event for the forecast switch can execute code related to forecasting when the switch status changes. These different reactive events enable the data visualization platform to update and present data in real-time based on user actions and selections. Code example is as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>processed_data_filtered_tbl <span class="ot">&lt;-</span> <span class="fu">eventReactive</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">eventExpr =</span> input<span class="sc">$</span>apply,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">valueExpr =</span> {</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      processed_data_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Date Range filter</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(ORDERDATE <span class="sc">%&gt;%</span> <span class="fu">between</span>(<span class="at">left =</span> <span class="fu">as_datetime</span>(input<span class="sc">$</span>date_range[<span class="dv">1</span>]),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">right =</span> <span class="fu">as_datetime</span>(input<span class="sc">$</span>date_range[<span class="dv">2</span>]))) <span class="sc">%&gt;%</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Picker filter: Country</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">filter</span>(COUNTRY <span class="sc">%in%</span> input<span class="sc">$</span>picker_country)  },</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">ignoreNULL =</span> <span class="cn">FALSE</span>  <span class="co"># Don't pass data as default: run code when app load )</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">observeEvent</span>(<span class="at">eventExpr =</span> input<span class="sc">$</span>time_unit, {</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (input<span class="sc">$</span>forecast_mode) {</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">delay</span>(<span class="dv">300</span>, <span class="fu">click</span>(<span class="at">id =</span> <span class="st">"apply"</span>))</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Add delay and simulate clicking actions in JavaScript } })</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a> <span class="fu">observeEvent</span>(<span class="at">eventExpr =</span> input<span class="sc">$</span>forecast_mode, {</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">delay</span>(<span class="dv">300</span>, <span class="fu">click</span>(<span class="at">id =</span> <span class="st">"apply"</span>))</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>   <span class="co"># Add delay and simulate clicking actions in JavaScript</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  }, <span class="at">once =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  time_plot_tbl <span class="ot">&lt;-</span> <span class="fu">reactive</span>({</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">processed_data_filtered_tbl</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">aggregate_time_series</span>(<span class="at">time_unit =</span> input<span class="sc">$</span>time_unit)})</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>  time_plot_predictions_tbl <span class="ot">&lt;-</span> <span class="fu">eventReactive</span>(<span class="at">eventExpr =</span> input<span class="sc">$</span>apply, {</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (input<span class="sc">$</span>forecast_mode) {</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">time_plot_tbl</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">generate_forecast</span>(<span class="at">n_future =</span> input<span class="sc">$</span>n_future, <span class="at">seed =</span> <span class="dv">123</span>) }})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="using-own_package-to-predict-future-orders" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="using-own_package-to-predict-future-orders"><span class="header-section-number">4.6.3</span> Using own_package to predict future orders</h3>
+<p><img src="img/line1.png" class="img-fluid"></p>
+<p>We will create our own R packages <strong>“Predict Future Order”</strong> to encapsulate the functions we develop. The given package code contains four functions that perform different tasks related to time series data and use it to predict the future order. Here’s a description of each function:</p>
+<ul>
+<li><strong>aggregate_time_series:</strong> Aggregate_time_series: This function produces a new time dimension based on dates, such as day, week, month, quarter or year, and it calculates the total sales per time unit.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' A function that aggregates time series data</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#'This function aggregates the given data based on the specified time unit.</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'time_unit value includes "day", "week", "month", "quarter", "year".</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'Then it calculates the total sales for</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#'each time unit and generates the time series info.</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @author Ting Wei</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param data A tibble format data, including the following columns:</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co">#'   - ORDERDATE: A column in POSIXct format,</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#'   e.g., "2020-02-24", representing the order dates.</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#'   - SALES: A column recording the sales price.</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param time_unit A character string specifying</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' the time unit to aggregate the data (default: "month").</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param ORDERDATE A column in POSIXct format, e.g.,</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">#'  "2020-02-24", representing the order dates.</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param SALES A column recording the sales price.</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A tibble with the aggregated data,</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#' including the date and total sales.</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#' @examples</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#' # Example data</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">#' data &lt;- tibble::tribble(</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">#'   ~ORDERDATE, ~SALES,</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#'   "2020-02-24", 2871,</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#'   "2020-05-07", 2766,</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">#'   "2020-08-30", 3884,</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">#'   # More rows...</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">#' )</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co">#' data$ORDERDATE=as.POSIXct(data$ORDERDATE)</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co">#' aggregated_data &lt;- aggregate_time_series(data,</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co">#'                                          time_unit = "month")</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co">#' aggregated_data</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import dplyr</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import lubridate</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import stringr</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import scales</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="co">#aggregate_time_series(processed_data_tbl)</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>aggregate_time_series <span class="ot">&lt;-</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(data, ORDERDATE,SALES, <span class="at">time_unit =</span> <span class="st">"month"</span>) {</span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    output_tbl <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">floor_date</span>(ORDERDATE, <span class="at">unit =</span> time_unit)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(date) <span class="sc">%&gt;%</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarize</span>(<span class="at">total_sales =</span> <span class="fu">sum</span>(SALES)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">label_text =</span> <span class="fu">str_glue</span>(<span class="st">"Date: {date}</span></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="st">                                 Revenue: {scales::dollar(total_sales)}"</span>))</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(output_tbl)</span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p><strong>plot_time_series:</strong> This function plots the time series data, showing the total sales over time. It uses the ggplot2 library to create a line plot with points, smoothing, and axis labels.</p></li>
+<li><p><strong>generate_forecast:</strong> This function generates forecasts for the future time periods based on the given time series data. It uses different modeling techniques, such as linear regression and XGBoost, depending on the time unit of the data. It returns a data frame with the actual and predicted values for the time series</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' A function that generates forecasts for the time series data</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' This function generates forecasts for the future</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' time periods based on the given data.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param data A data frame containing the time series data.</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param n_future An integer specifying the number</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' of future periods to forecast (default: 12 and min:1).</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param seed An optional seed for reproducibility (default: NULL).</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A data frame with the actual</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' and predicted values for the time series data.</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import dplyr</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import parsnip</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import tidyverse</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import stringr</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import scales</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import tibble</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">#' @import timetk</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">#' @export</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>generate_forecast<span class="ot">=</span><span class="cf">function</span>(data, <span class="at">n_future =</span> <span class="dv">12</span>, <span class="at">seed =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  train_tbl <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_augment_timeseries_signature</span>()</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  future_data_tbl <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_index</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_make_future_timeseries</span>(<span class="at">n_future =</span> n_future, <span class="at">inspect_weekdays =</span> <span class="cn">TRUE</span>, <span class="at">inspect_months =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_get_timeseries_signature</span>()</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Isolate and pull scale</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  time_scale <span class="ot">&lt;-</span>  data <span class="sc">%&gt;%</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_index</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tk_get_timeseries_summary</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pull</span>(scale)</span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Linear Regression for "year", XGBoost for other time units</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (time_scale <span class="sc">==</span> <span class="st">"year"</span>) {</span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit.model_spec</span>(total_sales <span class="sc">~</span> ., <span class="at">data =</span> train_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(total_sales, index.num))</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>    seed <span class="ot">&lt;-</span> seed</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(seed)</span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true" tabindex="-1"></a>    model <span class="ot">&lt;-</span> <span class="fu">boost_tree</span>(</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">mtry =</span> <span class="dv">20</span>,</span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">trees =</span> <span class="dv">500</span>,</span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">min_n =</span> <span class="dv">3</span>,</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true" tabindex="-1"></a>      <span class="at">tree_depth =</span> <span class="dv">8</span>,</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true" tabindex="-1"></a>      <span class="at">learn_rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true" tabindex="-1"></a>      <span class="at">loss_reduction =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-52"><a href="#cb16-52" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"xgboost"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-53"><a href="#cb16-53" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit.model_spec</span>(total_sales <span class="sc">~</span> ., <span class="at">data =</span> train_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>date, <span class="sc">-</span>label_text, <span class="sc">-</span>diff))</span>
+<span id="cb16-54"><a href="#cb16-54" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-55"><a href="#cb16-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-56"><a href="#cb16-56" aria-hidden="true" tabindex="-1"></a>  prediction_tbl <span class="ot">&lt;-</span> <span class="fu">predict</span>(model, <span class="at">new_data =</span> future_data_tbl) <span class="sc">%&gt;%</span></span>
+<span id="cb16-57"><a href="#cb16-57" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_cols</span>(future_data_tbl) <span class="sc">%&gt;%</span></span>
+<span id="cb16-58"><a href="#cb16-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(.pred, index) <span class="sc">%&gt;%</span></span>
+<span id="cb16-59"><a href="#cb16-59" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">total_sales =</span> .pred,</span>
+<span id="cb16-60"><a href="#cb16-60" aria-hidden="true" tabindex="-1"></a>           <span class="at">date        =</span> index) <span class="sc">%&gt;%</span></span>
+<span id="cb16-61"><a href="#cb16-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">label_text =</span> <span class="fu">str_glue</span>(<span class="st">"Date: {date}</span></span>
+<span id="cb16-62"><a href="#cb16-62" aria-hidden="true" tabindex="-1"></a><span class="st">                                 Revenue: {scales::dollar(total_sales)}"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb16-63"><a href="#cb16-63" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_column</span>(<span class="at">key =</span> <span class="st">"Prediction"</span>)</span>
+<span id="cb16-64"><a href="#cb16-64" aria-hidden="true" tabindex="-1"></a>  output_tbl <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb16-65"><a href="#cb16-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_column</span>(<span class="at">key =</span> <span class="st">"Actual"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb16-66"><a href="#cb16-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">bind_rows</span>(prediction_tbl)</span>
+<span id="cb16-67"><a href="#cb16-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(output_tbl)</span>
+<span id="cb16-68"><a href="#cb16-68" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><strong>plot_forecast:</strong> This function plots the actual and predicted values for the time series data. It creates a line plot with different colored lines for the actual and predicted values. It also includes smoothing and point markers for the data points.</li>
+</ul>
+<p>These functions provide a comprehensive set of tools for aggregating, visualizing, and forecasting time series data. Presenting aggregate_time_series, and generate_forecast as example:</p>
+</section>
+<section id="future-order-prediction-table-info" class="level3" data-number="4.6.4">
+<h3 data-number="4.6.4" class="anchored" data-anchor-id="future-order-prediction-table-info"><span class="header-section-number">4.6.4</span> Future order prediction table info</h3>
+<p><img src="img/table2.png" class="img-fluid"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>page5_output02 <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">renderDataTable</span>({</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (input<span class="sc">$</span>forecast_mode) {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">time_plot_predictions_tbl</span>()  <span class="sc">%&gt;%</span>dplyr<span class="sc">::</span><span class="fu">select</span>(key,date,total_sales)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {<span class="fu">time_plot_tbl</span>() <span class="sc">%&gt;%</span>dplyr<span class="sc">::</span><span class="fu">select</span>(date,total_sales)}</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>},<span class="at">options =</span> opts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="customer-forcast" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="customer-forcast"><span class="header-section-number">4.7</span> Customer Forcast</h2>
+<p><img src="img/line2.png" class="img-fluid"></p>
+<p>To forecast a customer’s future behavior and belonging group. Analyze the predicted customer behavior to identify segments. Analyzing and segmenting customers into these categories allows businesses to prioritize their efforts and allocate resources effectively</p>
+<ul>
+<li><p>mportant VIP: Important VIP customers are those who hold significant value for the business. Identifying and retaining these VIP customers is crucial for the success and growth of the business. Companies often provide special benefits, personalized services, and exclusive offers to maintain a strong relationship with their important VIP customers.</p></li>
+<li><p>Lost Customers: Lost customers refer to those who were previously engaged with the business but have stopped making purchases or interacting with the company. Identifying and understanding the reasons for customer churn is essential for businesses to take appropriate actions to win back lost customers or prevent further customer attrition.</p></li>
+<li><p>Retained Customers: Retained customers are the customers who continue to engage with the business and make repeat purchases over time. Building strong relationships with retained customers through personalized communication, rewards programs, and excellent customer service is important to maintain their loyalty and maximize their lifetime value.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>customer_forecast <span class="ot">&lt;-</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">function</span>(data, <span class="at">n_future =</span> <span class="dv">12</span>, <span class="at">seed =</span> <span class="cn">NULL</span>) {</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    train_tbl <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tk_augment_timeseries_signature</span>()</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    future_data_tbl <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tk_index</span>() <span class="sc">%&gt;%</span><span class="fu">unique</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tk_make_future_timeseries</span>(<span class="at">n_future =</span> n_future,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>                                <span class="at">inspect_weekdays =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>                                <span class="at">inspect_months =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tk_get_timeseries_signature</span>()</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    future_data_tbl<span class="ot">&lt;-</span> future_data_tbl[<span class="fu">rep</span>(<span class="fu">row.names</span>(future_data_tbl),</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                                          <span class="at">each =</span> <span class="dv">3</span>), ]</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    categories <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Retain_Customers"</span>,</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Lost_Customers"</span>, <span class="st">"Important_Vip"</span>)</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    num_rows <span class="ot">&lt;-</span> <span class="fu">nrow</span>(future_data_tbl)</span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    repeated_categories <span class="ot">&lt;-</span> <span class="fu">rep</span>(categories, <span class="at">length.out =</span> num_rows)</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    future_data_tbl<span class="sc">$</span>classification <span class="ot">&lt;-</span> repeated_categories</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Isolate and pull scale</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    time_scale <span class="ot">&lt;-</span>  data <span class="sc">%&gt;%</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tk_index</span>() <span class="sc">%&gt;%</span><span class="fu">unique</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tk_get_timeseries_summary</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pull</span>(scale)</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Linear Regression for "year", XGBoost for other time units</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (time_scale <span class="sc">==</span> <span class="st">"year"</span>) {</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>      model <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>(<span class="at">mode =</span> <span class="st">"regression"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>        <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"lm"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fit.model_spec</span>(total_num <span class="sc">~</span> .,</span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> train_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">select</span>(total_num,classification ,index.num))</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>      seed <span class="ot">&lt;-</span> seed</span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>      <span class="fu">set.seed</span>(seed)</span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>      model <span class="ot">&lt;-</span> <span class="fu">boost_tree</span>(</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">mode =</span> <span class="st">"regression"</span>,</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">mtry =</span> <span class="dv">20</span>,</span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">trees =</span> <span class="dv">500</span>,</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">min_n =</span> <span class="dv">3</span>,</span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">tree_depth =</span> <span class="dv">8</span>,</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">learn_rate =</span> <span class="fl">0.01</span>,</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>        <span class="at">loss_reduction =</span> <span class="fl">0.01</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>        <span class="fu">set_engine</span>(<span class="at">engine =</span> <span class="st">"xgboost"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fit.model_spec</span>(total_num <span class="sc">~</span> .,</span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> train_tbl <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span>date,  <span class="sc">-</span>diff))</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'alternate';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,15 @@
+date: today
+author:
+  - name: 'Yiqing Hu'
+  - name: 'Ting Wei'
+  - name: 'Xinchen Yang'
+  - name: 'Ludi Feng'
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    theme:
+      dark: superhero
+      light: flatly
+    number-sections: true
+    title-block-banner: true
