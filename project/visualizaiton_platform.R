@@ -1,11 +1,14 @@
 library(shiny)
 library(dplyr)
+#install.packages('shinydashboard')
 library(shinydashboard)
 library(gridExtra)
 library(grid)
 library(ggplot2)
 library(flexdashboard)
 library(shiny)
+#install.packages("devtools")
+#devtools::install_github("dreamRs/shinyWidgets")
 library(shinyWidgets)
 library(shinyjs)
 library(tidyverse)
@@ -15,12 +18,70 @@ library(parsnip)
 library(timetk)
 library(xgboost)
 library(ggthemes)
+#install.packages('highcharter')
 library(highcharter)
 library(fmsb)
+# install.packages("Rcpp")
 library(Rcpp)
+# install.packages("knitr")
+library(knitr)
+# install.packages("kableExtra")
+library(kableExtra)
+# install.packages("htmlTable")
+library(htmlTable)
+library(DT)
+devtools::document(pkg = paste0("own_package/", 
+                           "PredictFutureOrder"))
+#devtools::check(paste0("own_package/", 
+#                "PredictFutureOrder"))  #check whether there's problem
+devtools::install(pkg = paste0("own_package/", 
+                             "PredictFutureOrder"), 
+                reload = TRUE)
 library(PredictFutureOrder)
 useShinyjs(rmd = TRUE)
+# setwd('C:\\Users\\yangxinchen\\Desktop\\yxcgit\\visualization_platform')
+# setwd('D:/R-programing/visualization_platform')
+#getwd()
+# Load functions
 source('function/xgboost_forcast_coustomer.R')
+
+########################Data processing for page 1 ##########################
+user_behavior <- read.csv("data/user_behavior.csv")
+user_activity_daily <- function(data){
+  activity <- data %>%
+    group_by(date) %>%
+    summarize(UV = n_distinct(user_id), PV = n())
+  return (activity)
+}
+Daily <- user_activity_daily(user_behavior)
+Daily$date <- as.Date.factor(Daily$date)
+
+average_pv1 <- function(data){
+  average1 <-
+    data %>%
+    group_by(date) %>%
+    summarize(UV = n_distinct(user_id), PV = n()) %>%
+    mutate(PVmeandaily = PV/UV)
+  return(average1)
+}
+average_pv2 <- function(data){
+  average2 <-
+    data %>%
+    group_by(hour) %>%
+    summarize(UV = n_distinct(user_id), PV = n()) %>%
+    mutate(PVmeanhourly = PV/UV)
+  return(average2)
+}
+Average1 <- average_pv1(user_behavior)
+Average1$date <- as.Date.factor(Average1$date)
+Average1$Average_date <- Average1$date
+Average2 <- average_pv2(user_behavior)
+Average2$Average_hour <- Average2$hour
+
+min_date1 <- min(Daily$date[!is.na(Daily$date)])
+max_date2 <- max(Daily$date[!is.na(Daily$date)])
+min_date_average <- min(Average1$Average_date[!is.na(Average1$Average_date)])
+max_date_average <- max(Average1$Average_date[!is.na(Average1$Average_date)])
 
 ########################Data processing for page 2 ##########################
 orders <- read.csv("data/orders.csv")
@@ -37,6 +98,9 @@ User$date <- as.Date.factor(User$date)
 User$date1 <- User$date
 min_date3 <- min(User$date1[!is.na(User$date)])
 max_date4 <- max(User$date1[!is.na(User$date)])
+
+
+
 ########################Data processing for page 3 ##########################
 user_behavior_data <- read_csv('data/user_behavior.csv') 
 setClass("UserBehavior", slots = list(
@@ -95,17 +159,24 @@ buy_data_object <- new("UserBehavior",
                        hour = buy_data$hour
 )
 merged_data <- rbind(pv_data, cf_data, buy_data)
+
+
 ########################Data processing for page 4 ##########################
 order_data <- read_csv('data/orders.csv') 
 
 new_order_data <- order_data %>%
   group_by(user_id) %>%
-  summarize(min_day = min(20 - day),
+  summarize(min_day = min(18 - day),
             order_count = n(),
             total_price = sum(product_price))
 
 # Create data frame
 k_mean_data <- data.frame(user_id = new_order_data$user_id, recency = new_order_data$min_day, frequency = new_order_data$order_count, monetary = new_order_data$total_price)
+
+
+
+
+
 
 ########################Data processing for page 5 and page 6 ##########################
 # Load data
@@ -132,8 +203,6 @@ processed_data_tbl$classification='Retain_Customers'
 processed_data_tbl$classification[vip_num]='Important_Vip'
 processed_data_tbl$classification[lost_num]='Lost_Customers'
 
-
-
 ############################## ui #########################
 ui <- dashboardPage(
   dashboardHeader(title = "Customer Dashboard"),
@@ -150,7 +219,48 @@ ui <- dashboardPage(
   ),
   dashboardBody(
     tabItems(
-      # Page 1
+      #Page 1
+      tabItem(
+        tabName = "page1",
+        sidebarLayout(
+          sidebarPanel(
+            shinyWidgets::airDatepickerInput(
+              inputId = "date",
+              label = h4("Date Interval"),
+              value = c(min_date1,
+                        max_date2),
+              separator = " to ",
+              range = TRUE,
+              minDate  = min_date1,
+              maxDate = max_date2,
+              dateFormat = "yyyy-MM-dd",
+              autoClose = TRUE,
+              clearButton = TRUE,
+              width = "100%",
+              addon = "none"
+            ),
+            sliderInput("hour", HTML("Hour Interval:"),
+                        min = 0, max = 24, value = c(0, 24), step = 1),
+            sliderInput("Average_date", HTML("Average_date Interval:"),
+                        min = min_date_average, 
+                        max = max_date_average, 
+                        value = c(min_date_average, max_date_average)),
+            sliderInput("Average_hour", HTML("Average_hour Interval:"),
+                        min = 0, max = 24, value = c(0, 24), step = 1)
+            # Add sidebar content for page 1 here
+            
+          ),
+          mainPanel(
+            h2("Customer Activity Analysis"),
+            plotOutput("plot_user_activity_daily"),
+            plotOutput("plot_user_activity_hour"),
+            plotOutput("plot_average1"),
+            plotOutput("plot_average2")
+            # Add main panel content for page 1 here
+            
+          )
+        )
+      ),
       # Page 2
       tabItem(
         tabName = "page2",
@@ -164,240 +274,350 @@ ui <- dashboardPage(
             
           ),
           mainPanel(
-            h2("Page 2"),
+            h2("Customer Order Analysis"),
             plotOutput("plot_user_order"),
-            plotOutput("plot_hot_product"),
+            plotOutput("plot_hot_product")
             # Add main panel content for page 2 here
-            textOutput("page2_output")
+            
           )
         )
       ),
-    # Page 3
-    tabItem(
-      tabName = "page3",
-      sidebarLayout(
-        sidebarPanel(
-          # Add sidebar content for page 1 here
-          selectInput("page3_filter", "Page 3 Filter", choices = c("all", "individual"), selected = "all")
-        ),
-        mainPanel(
-          h2("Conversion rate"),
-          # # Add main panel content for page 1 here
-          # highchartOutput("funnel_chart")
-          # Conditional rendering of the funnel chart based on the selected option
-          conditionalPanel(
-            condition = "input.page3_filter == 'all'",
-            highchartOutput("funnel_chart")
+      # Page 3
+      tabItem(
+        tabName = "page3",
+        sidebarLayout(
+          sidebarPanel(
+            # Add sidebar content for page 1 here
+            selectInput("page3_filter", "Page 3 Filter", choices = c("all", "individual"), selected = "all")
           ),
-          conditionalPanel(
-            condition = "input.page3_filter == 'individual'",
-            highchartOutput("funnel_chart02")
+          mainPanel(
+            h2("Conversion rate"),
+            # # Add main panel content for page 1 here
+            # highchartOutput("funnel_chart")
+            # Conditional rendering of the funnel chart based on the selected option
+            conditionalPanel(
+              condition = "input.page3_filter == 'all'",
+              highchartOutput("funnel_chart")
+            ),
+            conditionalPanel(
+              condition = "input.page3_filter == 'individual'",
+              highchartOutput("funnel_chart02")
+            )
+          )
+        )
+      ),
+      ## tab 4
+      tabItem(
+        tabName = "page4",
+        sidebarLayout(
+          sidebarPanel(
+            # Add sidebar content for page 1 here
+            selectInput("page4_filter", "Graph type", choices = c("radar", "chart"), selected = "radar")
+          ),
+          mainPanel(
+            h2("Rader-Buyer Group"),
+            # # Add main panel content for page 1 here
+            conditionalPanel(
+              condition = "input.page4_filter == 'radar'",
+              plotlyOutput("segmentation_plot")
+              # ,
+              # tableOutput("column_table") 
+            ),
+            conditionalPanel(
+              condition = "input.page4_filter == 'chart'",
+              plotlyOutput("column_chart")
+              ,
+              DT::dataTableOutput("column_table")
+            )
+          )
+        )
+      ),
+      # Page 5
+      
+      tabItem(
+        tabName = "page5",
+        sidebarLayout(
+          sidebarPanel(
+            # Add sidebar content for page 1 here
+            shinyWidgets::airDatepickerInput(
+              inputId = "date_range",
+              label = h4("Date"),
+              value = c(min(processed_data_tbl$ORDERDATE),
+                        max(processed_data_tbl$ORDERDATE)),
+              separator = " to ",
+              range = TRUE,
+              minDate  = min(processed_data_tbl$ORDERDATE),
+              maxDate = max(processed_data_tbl$ORDERDATE),
+              dateFormat = "mm-dd-yyyy",
+              autoClose = TRUE,
+              clearButton = TRUE,
+              width = "100%",
+              addon = "none"
+            ),
+            shinyWidgets::pickerInput(
+              inputId  = "picker_country",
+              label    = h4("Country"),
+              choices  = sort(unique(processed_data_tbl$COUNTRY)),
+              selected = unique(processed_data_tbl$COUNTRY),
+              multiple = TRUE, # Allow multiple options
+              options = list(
+                `actions-box` = TRUE,  # Note back ticks
+                size = 10,
+                `selected-text-format` = "count > 3"
+              )),
+            shinyWidgets::radioGroupButtons(
+              inputId   = "time_unit", # Create name 
+              #label     = "Time Unit", # What is shown
+              choices   = c("Day"="day","Week"="week","Month"="month","Qtr"="quarter","Year"="year"), # The options shown
+              selected  = "month", # Default selection
+              status    = "info", # Set color
+              justified = TRUE
+            ),
+            h4("Forecast"),
+            shinyWidgets::switchInput(inputId = "forecast_mode",
+                                      handleWidth = 100,
+                                      labelWidth = 100,
+                                      inline = TRUE,
+                                      value = FALSE,
+                                      onStatus = "info",
+                                      onLabel = "On",
+                                      offLabel = "Off",
+                                      width = "200px"),
+            
+            conditionalPanel(condition = "input.forecast_mode == 1",
+                             numericInput(inputId = "n_future",
+                                          label = "Forecast Horizon",
+                                          value = 12,
+                                          min = 1  # At least 1 period in the future
+                             )),
+            # APPLY BUTTONS -----
+            actionButton(inputId = "apply", 
+                         label   = "Apply Forcast", 
+                         icon    = icon("play"),
+                         width   = '50%')
+          ),
+          mainPanel(
+            h2("Forcasting Future Order"),
+            
+            # Add main panel content for page 1 here
+            plotlyOutput(outputId = "page5_output"),
+            
+            h2("Acutal and Forcast Order Info"),
+            
+            DT::dataTableOutput(outputId="page5_output02")
+            
+          )
+        )
+      ),
+      # Page 6
+      tabItem(
+        tabName = "page6",
+        sidebarLayout(
+          sidebarPanel(
+            shinyWidgets::airDatepickerInput(
+              inputId = "date_range02",
+              label = h4("Date"),
+              value = c(min(processed_data_tbl$ORDERDATE),
+                        max(processed_data_tbl$ORDERDATE)),
+              separator = " to ",
+              range = TRUE,
+              minDate  = min(processed_data_tbl$ORDERDATE),
+              maxDate = max(processed_data_tbl$ORDERDATE),
+              dateFormat = "mm-dd-yyyy",
+              autoClose = TRUE,
+              clearButton = TRUE,
+              width = "100%",
+              addon = "none"
+            ),
+            shinyWidgets::pickerInput(
+              inputId  = "picker_customer",
+              label    = h4("Customer (at least 1 customers)"),
+              choices  = unique(processed_data_tbl$CUSTOMERNAME) %>% sort(),
+              selected = unique(processed_data_tbl$CUSTOMERNAME) %>% sort(),
+              multiple = TRUE, # Allow multiple options
+              options  = list(
+                `actions-box` = TRUE,  # Note back ticks
+                size = 10,
+                `selected-text-format` = "count > 1"
+              )),
+            shinyWidgets::radioGroupButtons(
+              inputId   = "time_unit02", # Create name 
+              #label     = "Time Unit", # What is shown
+              choices   = c("Day"="day","Week"="week","Month"="month","Qtr"="quarter","Year"="year"), # The options shown
+              selected  = "month", # Default selection
+              status    = "info", # Set color
+              justified = TRUE
+            ),
+            h4("Forecast"),
+            shinyWidgets::switchInput(inputId = "forecast_mode02",
+                                      handleWidth = 100,
+                                      labelWidth = 100,
+                                      inline = TRUE,
+                                      value = FALSE,
+                                      onStatus = "info",
+                                      onLabel = "On",
+                                      offLabel = "Off",
+                                      width = "200px"),
+            
+            conditionalPanel(condition = "input.forecast_mode02 == 1",
+                             numericInput(inputId = "n_future02",
+                                          label = "Forecast Horizon",
+                                          value = 12,
+                                          min = 1  # At least 1 period in the future
+                             )),
+            # APPLY BUTTONS -----
+            actionButton(inputId = "apply02", 
+                         label   = "Apply Forcast", 
+                         icon    = icon("play"),
+                         width   = '50%')
+          ),
+          mainPanel(
+            h2("Forcasting Customer"),
+            
+            # Add main panel content for page 1 here
+            plotlyOutput(outputId = "page6_output"),
+            
+            h2("Acutal and Forcast Customer Info"),
+            
+            DT::dataTableOutput(outputId="page6_output02")
+            
           )
         )
       )
-    ),
-    ## tab 4
-    tabItem(
-      tabName = "page4",
-      sidebarLayout(
-        sidebarPanel(
-          # Add sidebar content for page 1 here
-          selectInput("page4_filter", "Graph type", choices = c("radar", "chart"), selected = "radar")
-        ),
-        mainPanel(
-          h2("Rader-Buyer Group"),
-          # # Add main panel content for page 1 here
-          conditionalPanel(
-            condition = "input.page4_filter == 'radar'",
-            plotlyOutput("segmentation_plot")
-            # ,
-            # tableOutput("column_table") 
-          ),
-          conditionalPanel(
-            condition = "input.page4_filter == 'chart'",
-            plotlyOutput("column_chart")
-            ,
-            DT::dataTableOutput("column_table")
-          )
-        )
-      )
-    ),
-    # Page 5
-    
-    tabItem(
-      tabName = "page5",
-      sidebarLayout(
-        sidebarPanel(
-          # Add sidebar content for page 1 here
-          shinyWidgets::airDatepickerInput(
-            inputId = "date_range",
-            label = h4("Date"),
-            value = c(min(processed_data_tbl$ORDERDATE),
-                      max(processed_data_tbl$ORDERDATE)),
-            separator = " to ",
-            range = TRUE,
-            minDate  = min(processed_data_tbl$ORDERDATE),
-            maxDate = max(processed_data_tbl$ORDERDATE),
-            dateFormat = "mm-dd-yyyy",
-            autoClose = TRUE,
-            clearButton = TRUE,
-            width = "100%",
-            addon = "none"
-          ),
-          shinyWidgets::pickerInput(
-            inputId  = "picker_country",
-            label    = h4("Country"),
-            choices  = sort(unique(processed_data_tbl$COUNTRY)),
-            selected = unique(processed_data_tbl$COUNTRY),
-            multiple = TRUE, # Allow multiple options
-            options = list(
-              `actions-box` = TRUE,  # Note back ticks
-              size = 10,
-              `selected-text-format` = "count > 3"
-            )),
-          shinyWidgets::radioGroupButtons(
-            inputId   = "time_unit", # Create name 
-            #label     = "Time Unit", # What is shown
-            choices   = c("Day"="day","Week"="week","Month"="month","Qtr"="quarter","Year"="year"), # The options shown
-            selected  = "month", # Default selection
-            status    = "info", # Set color
-            justified = TRUE
-          ),
-          h4("Forecast"),
-          shinyWidgets::switchInput(inputId = "forecast_mode",
-                                    handleWidth = 100,
-                                    labelWidth = 100,
-                                    inline = TRUE,
-                                    value = FALSE,
-                                    onStatus = "info",
-                                    onLabel = "On",
-                                    offLabel = "Off",
-                                    width = "200px"),
-          
-          conditionalPanel(condition = "input.forecast_mode == 1",
-                           numericInput(inputId = "n_future",
-                                        label = "Forecast Horizon",
-                                        value = 12,
-                                        min = 1  # At least 1 period in the future
-                           )),
-          # APPLY BUTTONS -----
-          actionButton(inputId = "apply", 
-                       label   = "Apply Forcast", 
-                       icon    = icon("play"),
-                       width   = '50%')
-        ),
-        mainPanel(
-          h2("Forcasting Future Order"),
-          
-          # Add main panel content for page 1 here
-          plotlyOutput(outputId = "page5_output"),
-          
-          h2("Acutal and Forcast Order Info"),
-          
-          DT::dataTableOutput(outputId="page5_output02")
-          
-        )
-      )
-    ),
-    # Page 6
-    tabItem(
-      tabName = "page6",
-      sidebarLayout(
-        sidebarPanel(
-          shinyWidgets::airDatepickerInput(
-            inputId = "date_range02",
-            label = h4("Date"),
-            value = c(min(processed_data_tbl$ORDERDATE),
-                      max(processed_data_tbl$ORDERDATE)),
-            separator = " to ",
-            range = TRUE,
-            minDate  = min(processed_data_tbl$ORDERDATE),
-            maxDate = max(processed_data_tbl$ORDERDATE),
-            dateFormat = "mm-dd-yyyy",
-            autoClose = TRUE,
-            clearButton = TRUE,
-            width = "100%",
-            addon = "none"
-          ),
-          shinyWidgets::pickerInput(
-            inputId  = "picker_customer",
-            label    = h4("Customer (at least 1 customers)"),
-            choices  = unique(processed_data_tbl$CUSTOMERNAME) %>% sort(),
-            selected = unique(processed_data_tbl$CUSTOMERNAME) %>% sort(),
-            multiple = TRUE, # Allow multiple options
-            options  = list(
-              `actions-box` = TRUE,  # Note back ticks
-              size = 10,
-              `selected-text-format` = "count > 1"
-            )),
-          shinyWidgets::radioGroupButtons(
-            inputId   = "time_unit02", # Create name 
-            #label     = "Time Unit", # What is shown
-            choices   = c("Day"="day","Week"="week","Month"="month","Qtr"="quarter","Year"="year"), # The options shown
-            selected  = "month", # Default selection
-            status    = "info", # Set color
-            justified = TRUE
-          ),
-          h4("Forecast"),
-          shinyWidgets::switchInput(inputId = "forecast_mode02",
-                                    handleWidth = 100,
-                                    labelWidth = 100,
-                                    inline = TRUE,
-                                    value = FALSE,
-                                    onStatus = "info",
-                                    onLabel = "On",
-                                    offLabel = "Off",
-                                    width = "200px"),
-          
-          conditionalPanel(condition = "input.forecast_mode02 == 1",
-                           numericInput(inputId = "n_future02",
-                                        label = "Forecast Horizon",
-                                        value = 12,
-                                        min = 1  # At least 1 period in the future
-                           )),
-          # APPLY BUTTONS -----
-          actionButton(inputId = "apply02", 
-                       label   = "Apply Forcast", 
-                       icon    = icon("play"),
-                       width   = '50%')
-        ),
-        mainPanel(
-          h2("Forcasting Customer"),
-          
-          # Add main panel content for page 1 here
-          plotlyOutput(outputId = "page6_output"),
-          
-          h2("Acutal and Forcast Customer Info"),
-          
-          DT::dataTableOutput(outputId="page6_output02")
-          
-        )
-      )
-    )
     )
   )
 )
 
-
 ######################### server #########################
+
 server <- function(input, output) {
   # Server logic goes here
-
-  output$page1_output <- renderText({
-    paste("Selected option in Page 1:", input$page1_filter)
+  
+  ######## Reactive event for page1 #########################
+  data_filtered1 <- reactive({Daily %>%
+      filter(
+        between(date, input$date[1], input$date[2]))
   })
-
-  output$page2_output <- renderText({
-    paste("Selected option in Page 2:", input$page2_filter)
+  plot_user_activity_daily <- function(data){
+    A <- data_filtered1()
+    if(colnames(A)[2] == "UV"){
+      par(mfrow = c(1,2)) 
+      barplot(A$UV,
+              main = "Daily Activity Chart-UV",
+              names.arg = A$date,
+              cex.names = 0.65,
+              ylab = "Number",
+              col = "orange",
+              las = 2
+      )
+      legend("topright", "UV", cex = 0.65, fill = "orange")
+    } else {
+      "Please run user_activity_daily to generate UV"
+    }
+    if(colnames(A)[3] == "PV"){
+      barplot(A$PV,
+              main = "Daily Activity Chart-PV",
+              names.arg = A$date,
+              cex.names = 0.65,
+              ylab = "Number",
+              col = "orange",
+              las = 2
+      )
+      legend("topright", "PV", cex = 0.65, fill = "orange")
+    } else {
+      "Please run user_activity_daily to generate PV"
+    }
+  }
+  output$plot_user_activity_daily <- renderPlot(plot_user_activity_daily(data_filtered1()))
+  
+  user_activity_hour <- function(data){
+    hour <- data %>%
+      group_by(hour) %>%
+      summarize(UV = n_distinct(user_id), PV = n())
+    return (hour)
+  }
+  Hourly <- user_activity_hour(user_behavior)
+  data_filtered2 <- reactive({Hourly %>%
+      filter(
+        between(hour, input$hour[1], input$hour[2]))
   })
-######## Reactive event for page1 #########################
-
-######## Reactive event for page2 #########################
+  plot_user_activity_hour <- function(data){
+    B <- data_filtered2()
+    if(colnames(B)[2] == "UV"){
+      par(mfrow = c(1,2)) 
+      barplot(B$UV,
+              main = "Hourly Activity Chart-UV",
+              names.arg = B$hour,
+              cex.names = 0.65,
+              xlab = "Date",
+              ylab = "Number",
+              col = "green",
+              las = 1
+      )
+      legend("topright", "UV", cex = 0.65, fill = "green")
+    } else {
+      "Please run user_activity_hour to generate UV"
+    } 
+    if(colnames(B)[3] == "PV"){
+      barplot(B$PV,
+              main = "Hourly Activity Chart-PV",
+              names.arg = B$hour,
+              cex.names = 0.65,
+              xlab = "Date",
+              ylab = "Number",
+              col = "green",
+              las = 1
+      )
+      legend("topright", "PV", cex = 0.65, fill = "green")
+    } else {
+      "Please run user_activity_hour to generate PV"
+    }
+  }
+  output$plot_user_activity_hour <- renderPlot(plot_user_activity_hour(data_filtered2()))
+  
+  data_filtered3 <- reactive({Average1 %>%
+      filter(
+        between(Average_date, input$Average_date[1], input$Average_date[2]))
+  })
+  
+  plot_average1 <- function(data){
+    C <- data_filtered3()
+    barplot(C$PVmeandaily,
+            main = "Daily PV Per Capita",
+            names.arg = C$date,
+            cex.names = 0.65,
+            ylab = "Number",
+            col = "blue",
+            las = 2
+    )
+    
+  }
+  output$plot_average1 <- renderPlot(plot_average1(date_filtered3()))
+  
+  data_filtered4 <- reactive({Average2 %>%
+      filter(
+        between(Average_hour, input$Average_hour[1], input$Average_hour[2]))
+  })
+  plot_average2 <- function(data){
+    D <- data_filtered4()
+    barplot(D$PVmeanhourly,
+            main = "Hourly PV Per Capita",
+            names.arg = D$hour,
+            cex.names = 0.65,
+            ylab = "Number",
+            col = "blue",
+            las = 1
+    )
+    
+  }
+  output$plot_average2 <- renderPlot(plot_average2(date_filtered4()))
+  
+  ######## Reactive event for page2 #########################
   data_filtered5 <- reactive({User %>%
       filter(
         between(date, input$date1[1], input$date1[2]))
   })
-
+  
   plot_user_order <- function(data){
     D <- data_filtered5()
     if(colnames(D)[2] == "distinct_users"){
@@ -440,16 +660,16 @@ server <- function(input, output) {
     }
   }
   output$plot_user_order <- renderPlot(plot_user_order(data_filtered5()))
-
+  
   hot_product <- function(data){
-    product <- data %>%
-      group_by(product_name) %>%
+    product <- data %>% 
+      group_by(product_name) %>% 
       summarise(count_order = n(),
-                sum_product_price = sum(product_price))
-
+                sum_product_price = sum(product_price)) 
+    
     return(product)
   }
-
+  
   plot_hot_product <- function(data){
     E <- hot_product(data)
     if(colnames(E)[2]== "count_order"){
@@ -480,6 +700,8 @@ server <- function(input, output) {
     }
   }
   output$plot_hot_product <- renderPlot(plot_hot_product(orders))
+  
+  
   
   ######## Reactive event for page3 #########################
   output$funnel_chart <- renderHighchart({
@@ -517,7 +739,7 @@ server <- function(input, output) {
       hc
     }
   })
-  
+?plot_time_series
   
   output$funnel_chart02 <- renderHighchart({
     # pv_sum01<-distinct(pv_data, user_id)
@@ -929,3 +1151,7 @@ List performKMeansClustering(NumericMatrix inputData, int k) {
 }
 
 shinyApp(ui, server)
+
+
+
+
